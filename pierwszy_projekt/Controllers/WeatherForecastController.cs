@@ -11,6 +11,13 @@ namespace pierwszy_projekt.Controllers
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
     };
 
+        public static List<WeatherForecast> weatherForecasts = Enumerable.Range(1, 5).Select(index => new WeatherForecast
+        {
+            Date = DateTime.Now.AddDays(index),
+            TemperatureC = Random.Shared.Next(-20, 55),
+            Summary = Summaries[Random.Shared.Next(Summaries.Count)]
+        }).ToList();
+
         private readonly ILogger<WeatherForecastController> _logger;
 
         public WeatherForecastController(ILogger<WeatherForecastController> logger)
@@ -21,13 +28,7 @@ namespace pierwszy_projekt.Controllers
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Count)]
-            })
-            .ToArray();
+            return weatherForecasts;
         }
         [Route("getSummaries")]
         [HttpGet]
@@ -41,6 +42,16 @@ namespace pierwszy_projekt.Controllers
         public IActionResult addSummaries([FromBody]Summary summary)
         {
             Summaries.Add(summary.SummaryDesc);
+
+            return Ok();
+        }
+
+
+        [Route("addToTable")]
+        [HttpPost]
+        public IActionResult addToTable([FromBody] WeatherForecast weatherForecast)
+        {
+            weatherForecasts.Add(weatherForecast);
 
             return Ok();
         }

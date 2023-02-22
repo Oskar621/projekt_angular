@@ -3,33 +3,48 @@
 <p>This component demonstrates fetching data from the server.</p>
 
 <p *ngIf="!forecasts"><em>Loading...</em></p>
-
-<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="forecasts">
-  <thead>
-    <tr>
-      <th>Date</th>
-      <th>Temp. (C)</th>
-      <th>Temp. (F)</th>
-      <th>Summary</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let forecast of forecasts">
-      <td>{{ forecast.date }}</td>
-      <td>{{ forecast.temperatureC }}</td>
-      <td>{{ forecast.temperatureF }}</td>
-      <td>{{ forecast.summary }}</td>
-    </tr>
-  </tbody>
-</table>
+<form (ngSubmit)="onSubmit()" #forecastForm>
+  <table class='table table-striped' aria-labelledby="tableLabel" *ngIf="forecasts">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Temp. (C)</th>
+        <th>Temp. (F)</th>
+        <th>Summary</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let forecast of forecasts">
+        <td>{{ forecast.date }}</td>
+        <td>{{ forecast.temperatureC }}</td>
+        <td>{{ forecast.temperatureF }}</td>
+        <td>{{ forecast.summary }}</td>
+      </tr>
+      <tr>
+        <td>
+          <input type="text" #date [(ngModel)]="date" />
+        </td>
+        <td>
+          <input type="number" #temperatureC [(ngModel)]="temperatureC" />
+        </td>
+        <td>
+          <input type="number" #temperatureF [(ngModel)]="temperatureF" />
+        </td>
+        <td>
+          <input type="text" #summary[(ngModel)]="summary" />
+        </td>
+      </tr>,
+    </tbody>
+  </table>
+</form>
 <ul>
   <li *ngFor="let s of summaries">{{s}}</li>
 </ul>
-<input type="text" [(ngModel)]="summary"/>
-<button (click)="addSummary()">Dodaj</button>
-<input type="text" [(ngModel)]="date" />
-<input type="text" [(ngModel)]="temperatureC" />
-<input type="text" [(ngModel)]="temperatureF" />
 <input type="text" [(ngModel)]="summary" />
+<button (click)="addSummary()">Dodaj</button>
+
+
+
+
 <button (click)="addToTable()">Dodaj</button>
 
